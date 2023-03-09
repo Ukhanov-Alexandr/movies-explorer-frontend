@@ -1,0 +1,120 @@
+@import url('../../vendor/normalize.css');
+@import url('../../vendor/inter.css');
+
+.page {
+  display: flex;
+  width: 100%;
+  min-width: 320px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  padding: 0;
+  margin: 0;
+}
+
+.logo {
+  min-width: 38px;
+  height: 38px;
+  padding: 0;
+  margin: 0;
+  background-image: url("../../images/logo1.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 100%;
+  align-self: self-start;
+}
+
+.text {
+  text-decoration: none;
+  color: #000;
+}
+
+.article {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  margin: 0;
+  background-color: white;
+  padding: 100px 70px;
+}
+
+.article__header {
+  position: relative;
+  padding: 0 0 23px;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.article__header::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: black;
+  content: '';
+}
+
+/* button */
+.button {
+  box-sizing: border-box;
+  padding: 0;
+  border: none;
+  margin: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+/* animation */
+.animation {
+  opacity: 1;
+  transition: .3s;
+}
+
+.animation:not(:disabled):hover {
+  opacity: .7;
+}
+
+
+/* media */
+@media screen and (max-width: 870px) {
+  .article {
+    padding: 90px 50px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .article {
+    padding: 70px 18px 60px;
+  }
+
+  .logo {
+    align-self: center;
+  }
+}  
