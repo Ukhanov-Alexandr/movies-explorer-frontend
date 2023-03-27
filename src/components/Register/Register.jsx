@@ -1,9 +1,23 @@
 import './Register.css';
 import { Link } from 'react-router-dom';
+import useFormValidations from "../hoocks/useFormValidations"
+import { signupInitialValues } from "../../utils/constants"
 
-export const Register = () => (
+export const Register = ({ onSignUp }) => {
+  const {values, isErrors, errorMessages, handleValueChange } = useFormValidations(signupInitialValues);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSignUp({
+      name: values["input-name"],
+      email: values["input-email"],
+      password: values["input-password"],
+    });
+  }
+
+  return (
   <main className="main sign-form-container">
-    <form action="/" name="register" className="sign-form">
+    <form action="/" name="register" className="sign-form" onSubmit={handleSubmit}>
       <div className="sign-form__fields-wrapper">
         <Link to="/" className="logo" aria-label="На главную" type="button" />
         <h1 className="sign-form__header">Добро пожаловать!</h1>
@@ -13,18 +27,16 @@ export const Register = () => (
               Имя
             </span>
             <input
-              type="text"
-              name="name"
-              id="name"
               className="sign-form__field"
+              type="text"
+              name="input-name"
               minLength={3}
               required
-              placeholder='Виталий'
+              placeholder='Имя'
+              value={values["input-name"]}
+              onChange={handleValueChange}
             />
-            <span
-              className="sign-form__field-error"
-            >
-            </span>
+            <span className="sign-form__field-error">{errorMessages["input-name"]}</span>
           </label>
 
           <label className="sign-form__label" htmlFor="email">
@@ -32,14 +44,15 @@ export const Register = () => (
               E-mail
             </span>
             <input
-              type="email"
-              name="email"
-              id="email"
               className="sign-form__field"
+              type="email"
+              name="input-email"
               required
-              placeholder='pochta@yandex.ru'
+              placeholder='e-mail'
+              value={values["input-email"]}
+              onChange={handleValueChange}
             />
-            <span className="sign-form__field-error"/>
+            <span className="sign-form__field-error">{errorMessages["input-email"]}</span>
           </label>
 
           <label className="sign-form__label" htmlFor="password">
@@ -47,14 +60,15 @@ export const Register = () => (
               Пароль
             </span>
             <input
-              type="password"
-              name="password"
-              id="password"
               className="sign-form__field sign-form__field-password"
+              type="password"
+              name="input-password"
               required
+              minLength={3}
+              value={values["input-password"]}
+              onChange={handleValueChange}
             />
-            <span className="sign-form__field-error">Что-то пошло не так ...
-            </span>
+            <span className="sign-form__field-error">{errorMessages["input-password"]}</span>
           </label>
         </fieldset>
       </div>
@@ -63,6 +77,7 @@ export const Register = () => (
         <button
           type="submit"
           className="button sign-form__button"
+          disabled={Object.values(isErrors).some((item) => item)}
         >
           Зарегистрироваться
         </button>
@@ -79,4 +94,4 @@ export const Register = () => (
       </fieldset>
     </form>
   </main>
-);
+)};

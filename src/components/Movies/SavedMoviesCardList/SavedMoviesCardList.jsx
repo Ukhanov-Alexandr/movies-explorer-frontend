@@ -1,13 +1,11 @@
-import "./MoviesCardList.css";
+import "./SavedMoviesCardList.css";
 import React, { useState } from "react";
 import { Preloader } from "../Preloader/Preloader";
 import { MoviesCard } from "../MoviesCard/MoviesCard";
-import { useLocation } from "react-router-dom";
 
-export const MoviesCardList = ({ movies, isShort, handleHeardClick }) => {
+export const SavedMoviesCardList = ({ movies, isShort }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [index, setIndex] = useState(16);
-  const { pathname } = useLocation();
 
   const loadMore = () => {
     setIsLoading(!isLoading);
@@ -16,19 +14,9 @@ export const MoviesCardList = ({ movies, isShort, handleHeardClick }) => {
       setIsLoading(false);
     }, 800);
   };
+  console.log(movies.movies)
 
-  const handlShort = (movies) => {
-    const moviesShort = [];
-    movies.forEach((movie) => {
-      if (movie.duration <= 40) {
-        moviesShort.push(movie);
-      }
-    });
-    return moviesShort;
-  };
-
-  const moviesElements =
-    pathname === "/movies" ? movies.slice(0, index) : movies;
+  const moviesElements = movies.movies;
   const isEmpty = movies.length === 0;
   const hasCards = !isEmpty;
   return (
@@ -36,21 +24,17 @@ export const MoviesCardList = ({ movies, isShort, handleHeardClick }) => {
       {hasCards && (
         <>
           <ul className="cards">
-            {(isShort ? handlShort(moviesElements) : moviesElements).map((movie) => (
-              <MoviesCard
-                key={pathname === "/movies" ? movie.id : movie._id}
-                movie={movie}
-                handleHeardClick={handleHeardClick}
-              />
-            ))}
+            {isShort
+              ? moviesElements.map((movie) => (
+                  <MoviesCard key={movie.id} movie={movie}/>
+                ))
+              : moviesElements.map((movie) => (
+                  <MoviesCard key={movie.id} movie={movie}/>
+                ))}
           </ul>
           <button
             type="button"
-            className={
-              pathname === "/movies"
-                ? "animation button movies__more"
-                : "movies__more_hidden"
-            }
+            className="animation button movies__more"
             disabled={isLoading}
             onClick={loadMore}
           >
