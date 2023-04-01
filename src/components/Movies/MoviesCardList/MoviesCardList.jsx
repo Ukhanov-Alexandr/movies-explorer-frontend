@@ -36,13 +36,15 @@ export const MoviesCardList = ({ movies, isShort, handleHeardClick }) => {
       {hasCards && (
         <>
           <ul className="cards">
-            {(isShort ? handlShort(moviesElements) : moviesElements).map((movie) => (
-              <MoviesCard
-                key={pathname === "/movies" ? movie.id : movie._id}
-                movie={movie}
-                handleHeardClick={handleHeardClick}
-              />
-            ))}
+            {(isShort ? handlShort(moviesElements) : moviesElements).map(
+              (movie) => (
+                  <MoviesCard
+                    key={pathname === "/movies" ? movie.id : movie._id}
+                    movie={movie}
+                    handleHeardClick={handleHeardClick}
+                  />
+              )
+            )}
           </ul>
           <button
             type="button"

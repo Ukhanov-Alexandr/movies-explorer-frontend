@@ -15,35 +15,37 @@ import { NotFound } from "../NotFound/NotFound";
 import * as auth from "../../utils/auth";
 import MainApi from "../../utils/MainApi";
 import MoviesApi from "../../utils/MoviesApi";
+import ErrorPopup from "../ErrorPopup/ErrorPopup";
 
 function App() {
   const [currentUser, setСurrentUser] = useState({});
-  // const [email, setEmail] = useState("");
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  // const [isSavedMoviesCardList, setIsSavedMoviesCardList] = useState(false);
+  const [serverError, setServerError] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
 
   const navigate = useNavigate();
 
+  const closeErrorPopup = () => {
+    setServerError(null);
+  };
+
+  const openErrorPopup = (error) => {
+    setServerError(error);
+  };
+
   const handleUpdateUser = (data) => {
-    // setIsRequestingServer(true);
     if (localStorage.getItem("jwt")) {
       MainApi.patchProfile(data)
         .then((res) => {
           setСurrentUser(res);
-          // closeAllPopups();
         })
         .catch((err) => {
           console.log(`Ошибка с кодом: ${err.errorCode}`);
           console.dir(err);
-          // openErrorPopup(err);
+          openErrorPopup(err);
         })
-        .finally(() => {
-          setTimeout(() => {
-            // setIsRequestingServer(false);
-          }, 300);
-        });
     }
   };
 
@@ -63,7 +65,9 @@ function App() {
           setLoggedIn(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        openErrorPopup(err);
+      });
   };
 
   const handleLogin = ({ email, password }) => {
@@ -73,11 +77,13 @@ function App() {
         if (data.token) {
           tokenCheck();
         } else {
+          console.log('qweqweeqwasas')
           setLoggedIn(false);
-          // setIsInfoTooltipOpen(true);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        openErrorPopup(err);
+      });
   };
 
   useEffect(() => {
@@ -97,21 +103,16 @@ function App() {
         .then((user) => {
           if (!Array.isArray(user)) {
             setСurrentUser(user);
-            // setEmail(user.email);
             setLoggedIn(true);
             navigate("/movies");
-            // if (user) {
-            //   api.getCards(jwt).then((cards)=> {
-            //     setCards(cards)
-            //   })
-            //   setLoggedIn(true);
-            //   navigate("/");
-            // }
           } else {
             signOut();
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log('12123');
+          openErrorPopup(err);
+        });
     }
   }
 
@@ -120,7 +121,9 @@ function App() {
       .then((res) => {
         setMovies(res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        openErrorPopup(err);
+      });
   };
 
   const handSavedMovies = (mov) => {
@@ -129,16 +132,18 @@ function App() {
       .then((res) => {
         setSavedMovies((old) => [...old, res]);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        openErrorPopup(err);
+      });
   };
 
   const handDeleteMovies = (mov) => {
     console.dir(savedMovies);
-    console.log(!!(savedMovies.some((m) => m.movieId === mov.movieId)))
+    console.log(!!savedMovies.some((m) => m.movieId === mov.movieId));
 
     function filterByID(item) {
       if (!(item.movieId === mov.movieId)) {
-        return true
+        return true;
       }
       return false;
     }
@@ -149,36 +154,27 @@ function App() {
         let newArray = savedMovies.filter(filterByID);
         setSavedMovies(newArray);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        openErrorPopup(err);
+      });
   };
 
   useEffect(() => {
-    MainApi.getMovies().then((res) => {
-      setSavedMovies(res);
-    });
+    MainApi.getMovies()
+      .then((res) => {
+        setSavedMovies(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
-  // const memoizedValue = useMemo(() => {
-  //   MainApi.getMovies().then((res) => {
-  //     res.map((mov) => {
-  //       MainApi.deleteMovie(mov._id).then((res) => {
-  //         console.log(res);
-  //       });
-  //     });
-  //   });
-  // } ,[]);
-
-  // useEffect(() => {
-  //   MainApi.getMovies().then((res) => {
-  //       res.map((mov) =>{
-  //         MainApi.deleteMovie(mov._id)
-  //         .then((res) => {
-  //           console.log(res);
-  //         })
-  //       })
-  //   });
-  // },
-  // []);
+  // const saveCheck = (() => {
+  //   const isSaved = movies.some((movie) => movie.id === savedMovies.id);
+  //   console.log(isSaved)
+  //   return isSaved;
+  // });
+  // saveCheck();
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -224,6 +220,7 @@ function App() {
         <Route path="/404" element={<NotFound />} />
       </Routes>
       <Footer />
+      <ErrorPopup error={serverError} onClose={closeErrorPopup} />
     </CurrentUserContext.Provider>
   );
 }
