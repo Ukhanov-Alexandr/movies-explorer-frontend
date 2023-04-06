@@ -8,8 +8,8 @@ export const NavTab = ({ isOpen, handleOverlayClick, closePopup }) => {
 
   const handleLinkClick = (event) => {
     console.log('Link clicked');
-
   };
+  
   return (
     <nav className={isOpen ? "nav__menu nav__menu_opened" : "nav__menu"} onMouseDown={handleOverlayClick}>
       <div className="nav__content">

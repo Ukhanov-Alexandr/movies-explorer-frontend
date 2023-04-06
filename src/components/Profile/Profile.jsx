@@ -40,7 +40,7 @@ export const Profile = ({ onUpdateUser, signOut }) => {
         <div className="profile-form__fields-wrapper">
           <h1 className="profile-form__header">Привет, {currentUser.name}!</h1>
           <fieldset className="profile-form__fields">
-            <label className="profile-form__label" htmlFor="name">
+            <label className="profile-form__label">
               <span className="profile-form__field-name">Имя</span>
               <input
                 className="profile-form__field"
@@ -57,7 +57,6 @@ export const Profile = ({ onUpdateUser, signOut }) => {
             </span>
             <label
               className="profile-form__label profile-form__label_borderless"
-              htmlFor="email"
             >
               <span className="profile-form__field-name">E&#8209;mail</span>
               <input

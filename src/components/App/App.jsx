@@ -23,7 +23,7 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [serverError, setServerError] = useState(null);
-  const [isSaved, setIsSaved] = useState(false);
+  // const [isSaved, setIsSaved] = useState(false);
 
   const navigate = useNavigate();
 
@@ -178,7 +178,7 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Header />
+      <Header loggedIn={loggedIn}/>
       <Routes>
         <Route path="/" element={<Main />} />
         <Route

@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import icon from "../../images/profile_icon.svg";
 import { NavTab } from "../Main/NavTab/NavTab";
 
-export const Header = () => {
+export const Header = ({loggedIn}) => {
   const { pathname } = useLocation();
   const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -40,7 +40,7 @@ export const Header = () => {
           <Link to="/" className="logo" aria-label="На главную" type="button" />
           <div
             className={
-              pathname === "/"
+              !loggedIn
                 ? ""
                 : isActive
                 ? "header__burger active"
@@ -51,7 +51,7 @@ export const Header = () => {
             <span></span>
           </div>
           <NavTab isOpen={isNavMenuOpen} handleOverlayClick={handleOverlayClick} closePopup={closePopup}/>
-          {pathname === "/" && (
+          {(!loggedIn) && (
             <div className="header__sign-container header__sign-container-landing">
               <Link to="/sign-up" className="text header__text" type="button">
                 Регистрация
@@ -61,9 +61,7 @@ export const Header = () => {
               </Link>
             </div>
           )}
-          {(pathname === "/movies" ||
-            pathname === "/saved-movies" ||
-            pathname === "/profile") && (
+          {(loggedIn) && (
             <>
               <div className="header__sign-container">
                 <Link
