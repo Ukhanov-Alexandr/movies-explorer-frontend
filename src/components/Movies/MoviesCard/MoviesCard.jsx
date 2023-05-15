@@ -3,16 +3,30 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import MainApi from "../../../utils/MainApi";
 
-export const MoviesCard = ({ movie, handleHeardClick }) => {
-  const [isSaved, setIsSaved] = useState(false);
+export const MoviesCard = ({ movie, handleHeardClick, savedMovies }) => {
+  const [ isSaved, setIsSaved ] = useState(false);
   const { pathname } = useLocation();
+
+  const check = (arr) => {
+    let isliked = false
+    arr.forEach(i => {
+      if (i.movieId == movie.id) {
+        isliked = !isliked
+        return isliked
+      } 
+    })
+    return isliked
+  };
+
+  useEffect(() => {
+    setIsSaved(check(savedMovies))
+  }, []);
 
   const handler = () => {
     setIsSaved(!isSaved);
+    // localStorage.setItem("isSaved", !isSaved);
     handleHeardClick(movie);
   };
-
-
 
   const duration = () => {
     let duration = movie.duration;

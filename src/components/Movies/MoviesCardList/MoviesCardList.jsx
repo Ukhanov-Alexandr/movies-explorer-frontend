@@ -4,7 +4,7 @@ import { Preloader } from "../Preloader/Preloader";
 import { MoviesCard } from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
 
-export const MoviesCardList = ({ movies, handleHeardClick, isShort }) => {
+export const MoviesCardList = ({ movies, handleHeardClick, isShort, savedMovies }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [index, setIndex] = useState(16);
   const { pathname } = useLocation();
@@ -44,6 +44,7 @@ export const MoviesCardList = ({ movies, handleHeardClick, isShort }) => {
                     key={pathname === "/movies" ? movie.id : movie._id}
                     movie={movie}
                     handleHeardClick={handleHeardClick}
+                    savedMovies={savedMovies}
                   />
               )
             )}

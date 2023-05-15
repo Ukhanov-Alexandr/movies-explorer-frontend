@@ -1,18 +1,18 @@
 import "./Movies.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Preloader } from "../Movies/Preloader/Preloader";
 import { SearchForm } from "./SearchForm/SearchForm";
 import { MoviesCardList } from "./MoviesCardList/MoviesCardList";
 
-export const Movies = ({ movies, onSearchClick, handleHeardClick }) => {
-  const [word, setWord] = useState(localStorage.getItem("word"));
+export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies }) => {
+  const [word, setWord] = useState((localStorage.getItem("word")?localStorage.getItem("word"):""));
   const [isLoading, setIsLoading] = useState(false);
-  const [isShort, setIsShort] = useState(false);
+  const [isShort, setIsShort] = useState(localStorage.getItem("isShort")?(JSON.parse((localStorage.getItem("isShort"))) === true):false);
 
   const handlSearch = () => {
     const moviesSearch = [];
       movies.forEach((movie) => {
-        if (movie.nameRU.toLowerCase().includes(word.toLowerCase())) {
+        if (word.length != 0 && movie.nameRU.toLowerCase().includes(word.toLowerCase())) {
           moviesSearch.push(movie);
           localStorage.setItem("word", word);
         }
@@ -20,7 +20,14 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick }) => {
     return moviesSearch;
   };
 
-  console.log(localStorage.getItem("word"))
+  useEffect(() => {
+    if (word.length != 0) {
+      onSearchClick()
+    }
+  }, []);
+
+  // console.log(localStorage.getItem("word"));
+  // console.log(word);
   // console.log(localStorage.getItem("isShort"))
 
   return (
@@ -43,6 +50,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick }) => {
           movies={handlSearch()}
           isShort={(localStorage.getItem("isShort") == "true")}
           handleHeardClick={handleHeardClick}
+          savedMovies={savedMovies}
         />
       )}
     </main>

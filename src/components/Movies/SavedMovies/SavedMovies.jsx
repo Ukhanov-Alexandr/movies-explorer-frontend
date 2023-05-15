@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { SearchForm } from "../SearchForm/SearchForm";
 import { MoviesCardList } from "../MoviesCardList/MoviesCardList";
 
-export const SavedMovies = ({movies, onSearchClick, handleHeardClick}) => {
+export const SavedMovies = ({movies, onSearchClick, handleHeardClick, savedMovies}) => {
   const [word, setWord] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isShort, setIsShort] = useState(false);
@@ -22,6 +22,7 @@ export const SavedMovies = ({movies, onSearchClick, handleHeardClick}) => {
           movies={movies}
           isShort={isShort}
           handleHeardClick={handleHeardClick}
+          savedMovies={savedMovies}
         />
     </main>
   );

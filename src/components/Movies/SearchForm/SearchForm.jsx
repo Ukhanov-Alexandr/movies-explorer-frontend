@@ -2,11 +2,11 @@ import './SearchForm.css';
 import React, { useState, useEffect } from "react";
 
 export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isShort, setIsShort}) => {
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
   
-  useEffect(() => {
-   setChecked((JSON.parse((localStorage.getItem("isShort"))) === true))
-  }, []);
+  // useEffect(() => {
+  //  setChecked((JSON.parse((localStorage.getItem("isShort"))) === true))
+  // }, []);
 
   function handleSubmit(e){
     e.preventDefault();
@@ -21,7 +21,8 @@ export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isS
   function handleShort(evt){
     localStorage.setItem("isShort", !isShort);
     setIsShort(!isShort)
-    setChecked((JSON.parse((localStorage.getItem("isShort"))) === true))
+    // setIsShort((JSON.parse((localStorage.getItem("isShort"))) === true))
+    // setChecked((JSON.parse((localStorage.getItem("isShort"))) === true))
     // setChecked(!checked);
     // setChecked(evt.target.checked)
     // console.log(!checked)
@@ -63,10 +64,8 @@ export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isS
               type="checkbox"
               id="shorts"
               name="shorts"
-              // onClick={handleShort}
               onChange={handleShort}
-              // checked={isShort}
-              checked={checked}
+              checked={isShort}
             />
             <label className="shorts-switch__label" htmlFor="shorts" />
             <label className="shorts-switch__text" htmlFor="shorts">

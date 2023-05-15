@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -91,6 +91,9 @@ function App() {
 
   function signOut() {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("isShort");
+    localStorage.removeItem("word");
+    console.log(localStorage.getItem("word"))
     navigate("/sign-in");
     setLoggedIn(false);
   }
@@ -124,21 +127,76 @@ function App() {
         openErrorPopup(err);
       });
   };
+  
 
-  const handSavedMovies = (mov) => {
-    console.log(mov);
-    MainApi.createMovie(mov)
-      .then((res) => {
-        setSavedMovies((old) => [...old, res]);
-      })
-      .catch((err) => {
-        openErrorPopup(err);
-      });
-  };
+  ////////////////////////////////////////////////////////////
+  const handleHeardClick = useCallback((mov) => {
+    let isLiked = (!!localStorage.getItem("isLiked")?(JSON.parse((localStorage.getItem("isLiked"))) === true):false);
+    // console.log(isLiked)
+    let currentId = (!!localStorage.getItem("id")?localStorage.getItem("id"):'');
+
+      // const check = () => savedMovies.forEach(i => {
+      //   console.log('check')
+      //   if (i.movieId === mov.id) {
+      //     currentId = i._id;
+      //     isLiked = true
+      //   }
+      // })
+      // check();
+
+      console.log(isLiked)
+      
+      if (isLiked) {
+        function filterByID(item) {
+          if (!(item.movieId === mov.movieId)) {
+            return true;
+          }
+          return false;
+        }
+        console.log('____________unlike')
+        MainApi.deleteMovie(currentId)
+        .then((res) => {
+            console.log('wait a minute');
+            localStorage.removeItem("isLiked");
+            localStorage.removeItem("id");
+            // isLiked = !isLiked;
+            console.log(res);
+            let newArray = savedMovies.filter(filterByID);
+            setSavedMovies(newArray);
+          })
+          .catch((err) => {
+            openErrorPopup(err);
+          })
+
+      } else {
+        console.log('___________like')
+        MainApi.createMovie(mov)
+          .then((res) => {
+            localStorage.setItem("isLiked", true);
+            // console.log(localStorage.getItem("isLiked"))
+            localStorage.setItem("id", res._id);
+            // isLiked = !isLiked;
+            console.log(res._id);
+            setSavedMovies((old) => [...old, res]);
+          })
+          .catch((err) => {
+            openErrorPopup(err);
+          })
+      }
+  },[] )
+
+  // const handSavedMovies = (mov) => {
+  //   console.log(mov);
+  //   MainApi.createMovie(mov)
+  //     .then((res) => {
+  //       setSavedMovies((old) => [...old, res]);
+  //     })
+  //     .catch((err) => {
+  //       openErrorPopup(err);
+  //     });
+  // };
 
   const handDeleteMovies = (mov) => {
-    console.dir(savedMovies);
-    console.log(!!savedMovies.some((m) => m.movieId === mov.movieId));
 
     function filterByID(item) {
       if (!(item.movieId === mov.movieId)) {
@@ -146,7 +204,7 @@ function App() {
       }
       return false;
     }
-
+console.log(mov._id)
     MainApi.deleteMovie(mov._id)
       .then((res) => {
         console.log(res);
@@ -158,6 +216,7 @@ function App() {
       });
   };
 
+  /////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     MainApi.getMovies()
       .then((res) => {
@@ -166,7 +225,9 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [handleHeardClick]);
+
+console.log(savedMovies);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -181,7 +242,8 @@ function App() {
               <Movies
                 movies={movies}
                 onSearchClick={handleSearch}
-                handleHeardClick={handSavedMovies}
+                handleHeardClick={handleHeardClick}
+                savedMovies={savedMovies}
               />
             </ProtectedRoute>
           }
@@ -194,6 +256,7 @@ function App() {
               <SavedMovies
                 movies={savedMovies}
                 handleHeardClick={handDeleteMovies}
+                savedMovies={savedMovies}
               />
             </ProtectedRoute>
           }
