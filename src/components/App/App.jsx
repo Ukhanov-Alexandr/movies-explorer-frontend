@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -23,7 +23,6 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [serverError, setServerError] = useState(null);
-  // const [isSaved, setIsSaved] = useState(false);
 
   const navigate = useNavigate();
 
@@ -168,13 +167,6 @@ function App() {
         console.log(err);
       });
   }, []);
-
-  // const saveCheck = (() => {
-  //   const isSaved = movies.some((movie) => movie.id === savedMovies.id);
-  //   console.log(isSaved)
-  //   return isSaved;
-  // });
-  // saveCheck();
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

@@ -1,15 +1,11 @@
 import "./NavTab.css";
-import React, { useCallback, useState, useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import icon from "../../../images/profile_icon.svg";
 
 export const NavTab = ({ isOpen, handleOverlayClick, closePopup }) => {
   const { pathname } = useLocation();
 
-  const handleLinkClick = (event) => {
-    console.log('Link clicked');
-  };
-  
   return (
     <nav className={isOpen ? "nav__menu nav__menu_opened" : "nav__menu"} onMouseDown={handleOverlayClick}>
       <div className="nav__content">
