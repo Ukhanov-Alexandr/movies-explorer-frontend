@@ -132,17 +132,7 @@ function App() {
   ////////////////////////////////////////////////////////////
   const handleHeardClick = useCallback((mov) => {
     let isLiked = (!!localStorage.getItem("isLiked")?(JSON.parse((localStorage.getItem("isLiked"))) === true):false);
-    // console.log(isLiked)
     let currentId = (!!localStorage.getItem("id")?localStorage.getItem("id"):'');
-
-      // const check = () => savedMovies.forEach(i => {
-      //   console.log('check')
-      //   if (i.movieId === mov.id) {
-      //     currentId = i._id;
-      //     isLiked = true
-      //   }
-      // })
-      // check();
 
       console.log(isLiked)
       
@@ -159,7 +149,6 @@ function App() {
             console.log('wait a minute');
             localStorage.removeItem("isLiked");
             localStorage.removeItem("id");
-            // isLiked = !isLiked;
             console.log(res);
             let newArray = savedMovies.filter(filterByID);
             setSavedMovies(newArray);
@@ -173,9 +162,7 @@ function App() {
         MainApi.createMovie(mov)
           .then((res) => {
             localStorage.setItem("isLiked", true);
-            // console.log(localStorage.getItem("isLiked"))
             localStorage.setItem("id", res._id);
-            // isLiked = !isLiked;
             console.log(res._id);
             setSavedMovies((old) => [...old, res]);
           })
@@ -184,17 +171,6 @@ function App() {
           })
       }
   },[] )
-
-  // const handSavedMovies = (mov) => {
-  //   console.log(mov);
-  //   MainApi.createMovie(mov)
-  //     .then((res) => {
-  //       setSavedMovies((old) => [...old, res]);
-  //     })
-  //     .catch((err) => {
-  //       openErrorPopup(err);
-  //     });
-  // };
 
   const handDeleteMovies = (mov) => {
 

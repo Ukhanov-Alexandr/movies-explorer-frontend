@@ -31,6 +31,7 @@ export const Register = ({ onSignUp }) => {
               type="text"
               name="input-name"
               minLength={3}
+              maxLength={30}
               required
               placeholder='Имя'
               value={values["input-name"]}

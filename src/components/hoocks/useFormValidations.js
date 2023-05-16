@@ -1,4 +1,10 @@
 import { useState } from "react";
+// import { useForm, ErrorMessage } from "react-hook-form";
+
+const isValidEmail = email =>
+  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email
+  );
 
 function useFormValidations(initialValues) {
   const {inputValues, errorValues, errorStates} = initialValues;
@@ -7,6 +13,8 @@ function useFormValidations(initialValues) {
   const [isErrors, setIsErrors] = useState(errorStates);
 
   const handleValueChange = (evt) => {
+    console.dir(evt.target)
+    console.dir(evt.target.validity.valid)
     const {
       target: {
         value,
@@ -29,7 +37,26 @@ function useFormValidations(initialValues) {
     setErrorMessages(errorValues);
   }
 
-  return {values, isErrors, errorMessages, handleValueChange, setValues, resetErrors};
+  const handleEmailValidation = (evt) => {
+    // console.dir(evt.target.validity.valid)
+    const {
+      target: {
+        value,
+        name,
+      },
+    } = evt;
+    const isEmailValid = isValidEmail(value);
+
+    setValues({ ...values, [name]: value });
+    setIsErrors({ ...isErrors, [name]: !isEmailValid });
+    if (!isEmailValid) {
+      setErrorMessages({ ...errorMessages, [name]: 'некорректный email' });
+    } else {
+      setErrorMessages({ ...errorMessages, [name]: "" });
+    }
+  };
+
+  return {values, isErrors, errorMessages, handleValueChange, setValues, resetErrors, handleEmailValidation};
 }
 
 export default useFormValidations;

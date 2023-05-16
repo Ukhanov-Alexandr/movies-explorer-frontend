@@ -13,6 +13,7 @@ export const Profile = ({ onUpdateUser, signOut }) => {
     handleValueChange,
     setValues,
     resetErrors,
+    handleEmailValidation
   } = useFormValidations(signupInitialValues);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export const Profile = ({ onUpdateUser, signOut }) => {
                 name="input-name"
                 value={values["input-name"]}
                 minLength={3}
+                maxLength={30}
                 required
                 onChange={handleValueChange}
               />
@@ -65,7 +67,7 @@ export const Profile = ({ onUpdateUser, signOut }) => {
                 name="input-email"
                 value={values["input-email"]}
                 required
-                onChange={handleValueChange}
+                onChange={handleEmailValidation}
               />
             </label>
             <span className="sign-form__field-error">
