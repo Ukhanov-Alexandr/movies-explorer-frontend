@@ -97,19 +97,21 @@ function App() {
     localStorage.removeItem("jwt");
     localStorage.removeItem("isShort");
     localStorage.removeItem("word");
+    localStorage.removeItem("isLiked")
+    localStorage.removeItem("id");
     console.log(localStorage.getItem("word"))
     navigate("/sign-in");
     setLoggedIn(false);
   }
 
   function tokenCheck() {
-    console.log(!!localStorage.getItem("jwt"))
+    // console.log(!!localStorage.getItem("jwt"))
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
-      console.log(jwt)
+      // console.log(jwt)
       MainApi.getUser(jwt)
         .then((user) => {
-          console.log(!Array.isArray(user))
+          // console.log(!Array.isArray(user))
           if (!Array.isArray(user)) {
             // console.log(user)
             setСurrentUser(user);
@@ -142,7 +144,9 @@ function App() {
     let isLiked = (!!localStorage.getItem("isLiked")?(JSON.parse((localStorage.getItem("isLiked"))) === true):false);
     let currentId = (!!localStorage.getItem("id")?localStorage.getItem("id"):'');
 
-      console.log(isLiked)
+      // console.log(isLiked)
+      console.log((JSON.parse((localStorage.getItem("isLiked"))) === true))
+      // console.log(!!localStorage.getItem("isLiked"))
       
       if (isLiked) {
         function filterByID(item) {
