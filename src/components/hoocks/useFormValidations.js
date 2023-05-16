@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { useForm, ErrorMessage } from "react-hook-form";
 
 const isValidEmail = email =>
   /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -13,8 +12,8 @@ function useFormValidations(initialValues) {
   const [isErrors, setIsErrors] = useState(errorStates);
 
   const handleValueChange = (evt) => {
-    console.dir(evt.target)
-    console.dir(evt.target.validity.valid)
+    // console.dir(evt.target)
+    // console.dir(evt.target.validity.valid)
     const {
       target: {
         value,

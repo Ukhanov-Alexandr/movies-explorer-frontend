@@ -43,12 +43,16 @@ class Api {
       },
     })
       .then((res) => {
+        console.log(res.ok, '!')
         if (res.ok) {
+          // console.log(res)
           return res.json();
         }
         return [];
       })
-      .then((data) => data);
+      .then((data) => {
+        console.log(data)
+        return data});
   }
 
   getMovies() {

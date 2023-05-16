@@ -49,6 +49,7 @@ function App() {
   };
 
   const handleSignUp = ({ name, email, password }) => {
+    // console.log(name, email, password)
     if (!name || !email || !password) {
       return;
     }
@@ -58,8 +59,9 @@ function App() {
         if (res.ok) {
           setLoggedIn(true);
           setTimeout(() => {
-            navigate("/sign-in");
-          }, 800);
+            // navigate("/movie");
+            handleLogin({email, password})
+          }, 600);
         } else {
           setLoggedIn(false);
         }
@@ -73,6 +75,7 @@ function App() {
     auth
       .authorize(email, password)
       .then((data) => {
+        console.log('authorize complete')
         if (data.token) {
           tokenCheck();
         } else {
@@ -81,6 +84,7 @@ function App() {
         }
       })
       .catch((err) => {
+        console.log('im here')
         openErrorPopup(err);
       });
   };
@@ -99,11 +103,15 @@ function App() {
   }
 
   function tokenCheck() {
+    console.log(!!localStorage.getItem("jwt"))
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
+      console.log(jwt)
       MainApi.getUser(jwt)
         .then((user) => {
+          console.log(!Array.isArray(user))
           if (!Array.isArray(user)) {
+            // console.log(user)
             setСurrentUser(user);
             setLoggedIn(true);
             navigate("/movies");
@@ -112,7 +120,6 @@ function App() {
           }
         })
         .catch((err) => {
-          console.log('12123');
           openErrorPopup(err);
         });
     }
@@ -122,6 +129,7 @@ function App() {
     MoviesApi.getMovies()
       .then((res) => {
         setMovies(res);
+        tokenCheck();
       })
       .catch((err) => {
         openErrorPopup(err);
@@ -146,10 +154,10 @@ function App() {
         console.log('____________unlike')
         MainApi.deleteMovie(currentId)
         .then((res) => {
-            console.log('wait a minute');
+            // console.log('wait a minute');
             localStorage.removeItem("isLiked");
             localStorage.removeItem("id");
-            console.log(res);
+            // console.log(res);
             let newArray = savedMovies.filter(filterByID);
             setSavedMovies(newArray);
           })
@@ -163,7 +171,7 @@ function App() {
           .then((res) => {
             localStorage.setItem("isLiked", true);
             localStorage.setItem("id", res._id);
-            console.log(res._id);
+            // console.log(res._id);
             setSavedMovies((old) => [...old, res]);
           })
           .catch((err) => {
@@ -180,10 +188,10 @@ function App() {
       }
       return false;
     }
-console.log(mov._id)
+    // console.log(mov._id)
     MainApi.deleteMovie(mov._id)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         let newArray = savedMovies.filter(filterByID);
         setSavedMovies(newArray);
       })
@@ -194,16 +202,20 @@ console.log(mov._id)
 
   /////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    MainApi.getMovies()
+    if (loggedIn) {
+      // tokenCheck();
+      MainApi.getMovies()
       .then((res) => {
         setSavedMovies(res);
       })
       .catch((err) => {
         console.log(err);
       });
+    }
+    
   }, [handleHeardClick]);
 
-console.log(savedMovies);
+  // console.log(savedMovies);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
