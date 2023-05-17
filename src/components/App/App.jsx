@@ -59,7 +59,6 @@ function App() {
         if (res.ok) {
           setLoggedIn(true);
           setTimeout(() => {
-            // navigate("/movie");
             handleLogin({email, password})
           }, 600);
         } else {

@@ -3,7 +3,7 @@ import useFormValidations from "../hoocks/useFormValidations";
 import { signinInitialValues } from "../../utils/constants";
 
 export const Login = ({ onSignIn }) => {
-  const { values, isErrors, errorMessages, handleValueChange } =
+  const { values, isErrors, errorMessages, handleValueChange, handleEmailValidation } =
     useFormValidations(signinInitialValues);
 
   function handleSubmit(e) {
@@ -32,7 +32,7 @@ export const Login = ({ onSignIn }) => {
                 required
                 placeholder="e-mail"
                 value={values["input-email"]}
-                onChange={handleValueChange}
+                onChange={handleEmailValidation}
                 // ref={register({ required: true, validate: handleEmailValidation })}
               />
               <span className="sign-form__field-error">
