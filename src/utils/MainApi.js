@@ -87,10 +87,13 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
 
-  deleteMovie(movieId) {
+  deleteMovie(movieId, jwt) {
     return fetch(`${this._url}/movies/${movieId}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
     }).then((res) => this._checkResponse(res));
   }
 }

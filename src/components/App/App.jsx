@@ -154,7 +154,7 @@ function App() {
           }
           return false;
         }
-        MainApi.deleteMovie(savedMovies.find(m => m.movieId === movie.id)._id)
+        MainApi.deleteMovie(savedMovies.find(m => m.movieId === movie.id)._id, localStorage.getItem("jwt"))
         .then((res) => {
           setSavedMovies(savedMovies.filter(filterByID));
           console.log("____________unlike")
@@ -185,7 +185,7 @@ function App() {
       return false;
     }
     console.log(mov._id)
-    MainApi.deleteMovie(mov._id)
+    MainApi.deleteMovie(mov._id, localStorage.getItem("jwt"))
       .then((res) => {
         let newArray = savedMovies.filter(filterByID);
         setSavedMovies(newArray);
