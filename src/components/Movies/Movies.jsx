@@ -4,7 +4,7 @@ import { Preloader } from "../Movies/Preloader/Preloader";
 import { SearchForm } from "./SearchForm/SearchForm";
 import { MoviesCardList } from "./MoviesCardList/MoviesCardList";
 
-export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies }) => {
+export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, setSavedMovies }) => {
   const [word, setWord] = useState((localStorage.getItem("word")?localStorage.getItem("word"):""));
   const [isLoading, setIsLoading] = useState(false);
   const [isShort, setIsShort] = useState(localStorage.getItem("isShort")?(JSON.parse((localStorage.getItem("isShort"))) === true):false);
@@ -51,6 +51,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies })
           isShort={(localStorage.getItem("isShort") == "true")}
           handleHeardClick={handleHeardClick}
           savedMovies={savedMovies}
+          setSavedMovies={setSavedMovies}
         />
       )}
     </main>

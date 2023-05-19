@@ -1,32 +1,33 @@
 import "./MoviesCard.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useReducer  } from "react";
 import { useLocation } from "react-router-dom";
 import MainApi from "../../../utils/MainApi";
+// import { CurrentUserContext } from "../../../contexts/CurrentUserContext";
 
-export const MoviesCard = ({ movie, handleHeardClick, savedMovies }) => {
-  const [ isSaved, setIsSaved ] = useState(false);
+
+export const MoviesCard = ({ movie, handleHeardClick, savedMovies, setSavedMovies }) => {
+  // const currentUser = React.useContext(CurrentUserContext);
+  const [isSaved, setIsSaved] = useState(false);
   const { pathname } = useLocation();
 
   const check = (arr) => {
-    let isliked = false
-    arr.forEach(i => {
+    let isliked = false;
+    arr.forEach((i) => {
       if (i.movieId == movie.id) {
-        isliked = !isliked
-        return isliked
-      } 
-    })
-    return isliked
+        isliked = true;
+        return isliked;
+      }
+    });
+    return isliked;
+  };
+
+  const handler = () => {
+    handleHeardClick(movie, savedMovies, setSavedMovies, isSaved, setIsSaved);
   };
 
   useEffect(() => {
-    setIsSaved(check(savedMovies))
+    setIsSaved(check(savedMovies));
   }, []);
-
-  const handler = () => {
-    setIsSaved(!isSaved);
-    // localStorage.setItem("isSaved", !isSaved);
-    handleHeardClick(movie);
-  };
 
   const duration = () => {
     let duration = movie.duration;

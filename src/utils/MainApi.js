@@ -43,7 +43,7 @@ class Api {
       },
     })
       .then((res) => {
-        console.log(res.ok, '!')
+        // console.log(res.ok, 'getUser res.ok')
         if (res.ok) {
           // console.log(res)
           return res.json();
@@ -51,21 +51,26 @@ class Api {
         return [];
       })
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         return data});
   }
 
   getMovies() {
+    // debugger
     return fetch(`${this._url}/movies`, {
       method: "GET",
       headers: this._headers,
     }).then((res) => this._checkResponse(res));
   }
 
-  createMovie(movie) {
+  createMovie(movie, jwt) {
+    // debugger
     return fetch(`${this._url}/movies`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
       body: JSON.stringify({
         country: movie.country,
         director: movie.director,

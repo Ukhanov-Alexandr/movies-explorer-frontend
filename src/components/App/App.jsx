@@ -16,6 +16,7 @@ import * as auth from "../../utils/auth";
 import MainApi from "../../utils/MainApi";
 import MoviesApi from "../../utils/MoviesApi";
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
+import { useLocation } from "react-router-dom";
 
 function App() {
   const [currentUser, setСurrentUser] = useState({});
@@ -23,6 +24,7 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [serverError, setServerError] = useState(null);
+  const { pathname } = useLocation();
 
   const navigate = useNavigate();
 
@@ -74,11 +76,11 @@ function App() {
     auth
       .authorize(email, password)
       .then((data) => {
-        console.log('authorize complete')
         if (data.token) {
           tokenCheck();
+          console.log('authorize complete')
         } else {
-          console.log('qweqweeqwasas')
+          console.log('authorize error')
           setLoggedIn(false);
         }
       })
@@ -98,7 +100,7 @@ function App() {
     localStorage.removeItem("word");
     localStorage.removeItem("isLiked")
     localStorage.removeItem("id");
-    console.log(localStorage.getItem("word"))
+    // console.log(localStorage.getItem("word"))
     navigate("/sign-in");
     setLoggedIn(false);
   }
@@ -127,6 +129,8 @@ function App() {
   }
 
   const handleSearch = () => {
+    // tokenCheck();
+
     MoviesApi.getMovies()
       .then((res) => {
         setMovies(res);
@@ -139,64 +143,53 @@ function App() {
   
 
   ////////////////////////////////////////////////////////////
-  const handleHeardClick = useCallback((mov) => {
-    let isLiked = (!!localStorage.getItem("isLiked")?(JSON.parse((localStorage.getItem("isLiked"))) === true):false);
-    let currentId = (!!localStorage.getItem("id")?localStorage.getItem("id"):'');
+ ////////////////////////////////////////////////////////////
+  const handleHeardClick = useCallback((movie, savedMovies, setSavedMovies, isSaved, setIsSaved) => {
 
-      // console.log(isLiked)
-      console.log((JSON.parse((localStorage.getItem("isLiked"))) === true))
-      // console.log(!!localStorage.getItem("isLiked"))
-      
-      if (isLiked) {
+    console.log(isSaved);
+    if ((pathname === "/saved-movies") ? true : isSaved ) {
         function filterByID(item) {
-          if (!(item.movieId === mov.movieId)) {
+          if (!(item.movieId === movie.id)) {
             return true;
           }
           return false;
         }
-        console.log('____________unlike')
-        MainApi.deleteMovie(currentId)
+        MainApi.deleteMovie(savedMovies.find(m => m.movieId === movie.id)._id)
         .then((res) => {
-            // console.log('wait a minute');
-            localStorage.removeItem("isLiked");
-            localStorage.removeItem("id");
-            // console.log(res);
-            let newArray = savedMovies.filter(filterByID);
-            setSavedMovies(newArray);
-          })
-          .catch((err) => {
-            openErrorPopup(err);
-          })
-
-      } else {
-        console.log('___________like')
-        MainApi.createMovie(mov)
-          .then((res) => {
-            localStorage.setItem("isLiked", true);
-            localStorage.setItem("id", res._id);
-            // console.log(res._id);
-            setSavedMovies((old) => [...old, res]);
-          })
-          .catch((err) => {
-            openErrorPopup(err);
-          })
-      }
-  },[] )
+          setSavedMovies(savedMovies.filter(filterByID));
+          console.log("____________unlike")
+          setIsSaved(false);
+        })
+        .catch((err) => {
+          openErrorPopup(err);
+        });
+    } else {
+      MainApi.createMovie(movie, localStorage.getItem("jwt"))
+        .then((res) => {
+          setIsSaved(true);
+          console.log(res._id);
+          setSavedMovies((old) => [...old, res]);
+          console.log("___________like");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  },[])
 
   const handDeleteMovies = (mov) => {
-
     function filterByID(item) {
       if (!(item.movieId === mov.movieId)) {
         return true;
       }
       return false;
     }
-    // console.log(mov._id)
+    console.log(mov._id)
     MainApi.deleteMovie(mov._id)
       .then((res) => {
-        // console.log(res);
         let newArray = savedMovies.filter(filterByID);
         setSavedMovies(newArray);
+        console.log('DEL')
       })
       .catch((err) => {
         openErrorPopup(err);
@@ -205,8 +198,7 @@ function App() {
 
   /////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    if (loggedIn) {
-      // tokenCheck();
+    if (localStorage.getItem("jwt")) {
       MainApi.getMovies()
       .then((res) => {
         setSavedMovies(res);
@@ -215,10 +207,7 @@ function App() {
         console.log(err);
       });
     }
-    
   }, [handleHeardClick]);
-
-  // console.log(savedMovies);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -235,6 +224,7 @@ function App() {
                 onSearchClick={handleSearch}
                 handleHeardClick={handleHeardClick}
                 savedMovies={savedMovies}
+                setSavedMovies={setSavedMovies}
               />
             </ProtectedRoute>
           }
@@ -248,6 +238,7 @@ function App() {
                 movies={savedMovies}
                 handleHeardClick={handDeleteMovies}
                 savedMovies={savedMovies}
+                setSavedMovies={setSavedMovies}
               />
             </ProtectedRoute>
           }
