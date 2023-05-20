@@ -8,6 +8,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
   const [word, setWord] = useState((localStorage.getItem("word")?localStorage.getItem("word"):""));
   const [isLoading, setIsLoading] = useState(false);
   const [isShort, setIsShort] = useState(localStorage.getItem("isShort")?(JSON.parse((localStorage.getItem("isShort"))) === true):false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const handlSearch = () => {
     const moviesSearch = [];
@@ -17,11 +18,13 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
           localStorage.setItem("word", word);
         }
       });
+      // setIsEmpty(false);
     return moviesSearch;
   };
 
   useEffect(() => {
       onSearchClick()
+      // setIsEmpty(false);
   },[]);
 
   return (
@@ -32,6 +35,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
         setIsLoading={setIsLoading}
         setIsShort={setIsShort}
         isShort={isShort}
+        setIsFirstRender={setIsFirstRender}
       />
       {isLoading ? (
         <>
@@ -45,6 +49,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
           handleHeardClick={handleHeardClick}
           savedMovies={savedMovies}
           setSavedMovies={setSavedMovies}
+          isFirstRender={isFirstRender}
         />
       )}
     </main>

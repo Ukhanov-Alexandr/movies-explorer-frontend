@@ -38,7 +38,7 @@ function App() {
 
   const handleUpdateUser = (data) => {
     if (localStorage.getItem("jwt")) {
-      MainApi.patchProfile(data)
+      MainApi.patchProfile(data, localStorage.getItem("jwt"))
         .then((res) => {
           setСurrentUser(res);
         })
@@ -141,20 +141,6 @@ function App() {
       });
   };
 
-  // const handleSavedSearch = () => {
-  //   console.log(localStorage.getItem("jwt"))
-  //   MainApi.getMovies(localStorage.getItem("jwt"))
-  //     .then((res) => {
-  //       setSavedMovies(res);
-  //       tokenCheck();
-  //     })
-  //     .catch((err) => {
-  //       openErrorPopup(err);
-  //     });
-  // };
-
-
-  ////////////////////////////////////////////////////////////
  ////////////////////////////////////////////////////////////
   const handleHeardClick = useCallback((movie, savedMovies, setSavedMovies, isSaved, setIsSaved) => {
 
@@ -208,8 +194,6 @@ function App() {
       });
   };
 
-
-
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
       MainApi.getMovies(localStorage.getItem("jwt"))
@@ -249,7 +233,6 @@ function App() {
             <ProtectedRoute loggedIn={loggedIn}>
               <SavedMovies
                 movies={savedMovies}
-                // onSearchClick={handleSavedSearch}
                 handleHeardClick={handDeleteMovies}
                 savedMovies={savedMovies}
                 setSavedMovies={setSavedMovies}

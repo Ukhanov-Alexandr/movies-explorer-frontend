@@ -8,6 +8,7 @@ export const SavedMovies = ({movies, handleHeardClick, savedMovies, setSavedMovi
   const [word, setWord] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isShort, setIsShort] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
   
   const handlSearch = () => {
     const moviesSearch = [];
@@ -27,6 +28,7 @@ export const SavedMovies = ({movies, handleHeardClick, savedMovies, setSavedMovi
         setIsLoading={setIsLoading}
         setIsShort={setIsShort}
         isShort={isShort}
+        setIsFirstRender={setIsFirstRender}
       />
       {isLoading ? (
         <>
@@ -40,6 +42,7 @@ export const SavedMovies = ({movies, handleHeardClick, savedMovies, setSavedMovi
           handleHeardClick={handleHeardClick}
           savedMovies={savedMovies}
           setSavedMovies={setSavedMovies}
+          isFirstRender={isFirstRender}
         />
       )}
     </main>

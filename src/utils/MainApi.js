@@ -23,10 +23,13 @@ class Api {
     return Promise.reject(err);
   }
 
-  patchProfile(data) {
+  patchProfile(data, jwt) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
       body: JSON.stringify({
         name: data.name,
         email: data.email,

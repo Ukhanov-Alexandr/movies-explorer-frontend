@@ -1,6 +1,6 @@
 import './SearchForm.css';
 
-export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort}) => {
+export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort, setIsFirstRender}) => {
 
   function handleSubmit(e){
     
@@ -8,7 +8,9 @@ export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShor
     setWord(e.target[1].value);
     setIsLoading(!isLoading);
     console.log('11')
+    setIsFirstRender(false)
     setTimeout(() => {
+      // setIsEmpty(false)
       setIsLoading(false);
     }, 600);
   }

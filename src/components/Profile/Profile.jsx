@@ -29,10 +29,14 @@ export const Profile = ({ onUpdateUser, signOut }) => {
   function handleSubmit(e){
     e.preventDefault();
     console.log('hey!')
-    onUpdateUser({
+    if (currentUser.name == values["input-name"] && currentUser.email == values["input-email"]) {
+      console.log('ничего не поменялость')
+    } else {
+      onUpdateUser({
         name: values["input-name"],
         email: values["input-email"]
     });
+    }
   }
 
   return (
