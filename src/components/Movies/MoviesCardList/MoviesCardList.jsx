@@ -4,11 +4,18 @@ import { Preloader } from "../Preloader/Preloader";
 import { MoviesCard } from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
 
-export const MoviesCardList = ({ movies, handleHeardClick, isShort, savedMovies, setSavedMovies, isFirstRender }) => {
+export const MoviesCardList = ({
+  movies,
+  handleHeardClick,
+  isShort,
+  savedMovies,
+  setSavedMovies,
+  isFirstRender,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [index, setIndex] = useState(16);
   const { pathname } = useLocation();
-  // const [isEmpty, setIsEmpty] = useState(true);
+  // const [isNoMore, setIsNoMore] = useState(true);
 
   const loadMore = () => {
     setIsLoading(!isLoading);
@@ -28,7 +35,8 @@ export const MoviesCardList = ({ movies, handleHeardClick, isShort, savedMovies,
     return moviesShort;
   };
 
-  const moviesElements = (pathname === "/movies") ? movies.slice(0, index) : movies;
+  const moviesElements =
+    pathname === "/movies" ? movies.slice(0, index) : movies;
   const isEmpty = movies.length === 0;
   const hasCards = !isEmpty;
   return (
@@ -38,37 +46,42 @@ export const MoviesCardList = ({ movies, handleHeardClick, isShort, savedMovies,
           <ul className="cards">
             {(isShort ? handlShort(moviesElements) : moviesElements).map(
               (movie) => (
-                  <MoviesCard
-                    key={pathname === "/movies" ? movie.id : movie._id}
-                    movie={movie}
-                    handleHeardClick={handleHeardClick}
-                    savedMovies={savedMovies}
-                    setSavedMovies={setSavedMovies}
-                  />
+                <MoviesCard
+                  key={pathname === "/movies" ? movie.id : movie._id}
+                  movie={movie}
+                  handleHeardClick={handleHeardClick}
+                  savedMovies={savedMovies}
+                  setSavedMovies={setSavedMovies}
+                />
               )
             )}
           </ul>
-          <button
-            type="button"
-            className={
-              pathname === "/movies"
-                ? "animation button movies__more"
-                : "movies__more_hidden"
-            }
-            disabled={isLoading}
-            onClick={loadMore}
-          >
-            Ещё
-          </button>
+
+          { moviesElements.length == index && (
+            <button
+              type="button"
+              className={
+                pathname === "/movies"
+                  ? "animation button movies__more"
+                  : "movies__more_hidden"
+              }
+              disabled={isLoading}
+              onClick={loadMore}
+            >
+              Ещё
+            </button>
+          )}
         </>
       )}
-      {isLoading && (
+      { isLoading && (
         <>
           <Preloader />
           <p className="movies__load-info">Загрузка...</p>
         </>
       )}
-      {(isEmpty && !isFirstRender) && <p className="movies__load-info">Ничего не найдено</p>}
+      {isEmpty && !isFirstRender && (
+        <p className="movies__load-info">Ничего не найдено</p>
+      )}
     </article>
   );
 };
