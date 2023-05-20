@@ -21,15 +21,12 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
   };
 
   useEffect(() => {
-    // if (word.length != 0) {
       onSearchClick()
-    // }
   },[]);
 
   return (
     <main className="main">
       <SearchForm
-        onSearchClick={onSearchClick}
         setWord={setWord}
         isLoading={isLoading}
         setIsLoading={setIsLoading}

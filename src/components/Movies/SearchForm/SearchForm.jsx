@@ -1,24 +1,13 @@
 import './SearchForm.css';
-// import React, { useState, useEffect } from "react";
 
-export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isShort, setIsShort, handlSearch}) => {
-  // const [checked, setChecked] = useState(false);
-  
-  // useEffect(() => {
-  //  setChecked((JSON.parse((localStorage.getItem("isShort"))) === true))
-  // }, []);
+export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort}) => {
 
   function handleSubmit(e){
     
     e.preventDefault();
     setWord(e.target[1].value);
     setIsLoading(!isLoading);
-    // onSearchClick();
     console.log('11')
-    // if (!!handlSearch) {
-    //   handlSearch()
-    //   console.log(e.target[1].value)
-    // }
     setTimeout(() => {
       setIsLoading(false);
     }, 600);
@@ -27,22 +16,7 @@ export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isS
   function handleShort(evt){
     localStorage.setItem("isShort", !isShort);
     setIsShort(!isShort)
-    // setIsShort((JSON.parse((localStorage.getItem("isShort"))) === true))
-    // setChecked((JSON.parse((localStorage.getItem("isShort"))) === true))
-    // setChecked(!checked);
-    // setChecked(evt.target.checked)
-    // console.log(!checked)
-    // console.log(evt.target.checked)
-    // console.log(localStorage.getItem("isShort"))
   }
-
-  // function handleChange() {
-	// 	setChecked(!checked);
-	// }
-
-  // console.log(isShort)
-  // console.log(checked)
-  // console.log(JSON.parse((localStorage.getItem("isShort"))) === true)
 
   return(
     <article className="article search" aria-label="Поиск фильмов">
@@ -65,7 +39,6 @@ export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isS
       <fieldset className="search__fields">
           <div className="shorts-switch">
             <input
-              // className={(localStorage.getItem("isShort") == "true") ? "shorts-switch__checkbox shorts-switch__checkbox_active" : "shorts-switch__checkbox"}
               className="shorts-switch__checkbox"
               type="checkbox"
               id="shorts"

@@ -141,17 +141,17 @@ function App() {
       });
   };
 
-  const handleSavedSearch = () => {
-    console.log(localStorage.getItem("jwt"))
-    MainApi.getMovies(localStorage.getItem("jwt"))
-      .then((res) => {
-        setSavedMovies(res);
-        tokenCheck();
-      })
-      .catch((err) => {
-        openErrorPopup(err);
-      });
-  };
+  // const handleSavedSearch = () => {
+  //   console.log(localStorage.getItem("jwt"))
+  //   MainApi.getMovies(localStorage.getItem("jwt"))
+  //     .then((res) => {
+  //       setSavedMovies(res);
+  //       tokenCheck();
+  //     })
+  //     .catch((err) => {
+  //       openErrorPopup(err);
+  //     });
+  // };
 
 
   ////////////////////////////////////////////////////////////
@@ -212,7 +212,7 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
-      MainApi.getMovies()
+      MainApi.getMovies(localStorage.getItem("jwt"))
       .then((res) => {
         setSavedMovies(res);
       })
@@ -249,7 +249,7 @@ function App() {
             <ProtectedRoute loggedIn={loggedIn}>
               <SavedMovies
                 movies={savedMovies}
-                onSearchClick={handleSavedSearch}
+                // onSearchClick={handleSavedSearch}
                 handleHeardClick={handDeleteMovies}
                 savedMovies={savedMovies}
                 setSavedMovies={setSavedMovies}
