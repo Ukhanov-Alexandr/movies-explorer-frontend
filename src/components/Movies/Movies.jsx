@@ -21,14 +21,10 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
   };
 
   useEffect(() => {
-    if (word.length != 0) {
+    // if (word.length != 0) {
       onSearchClick()
-    }
-  }, []);
-
-  // console.log(localStorage.getItem("word"));
-  // console.log(word);
-  // console.log(localStorage.getItem("isShort"))
+    // }
+  },[]);
 
   return (
     <main className="main">

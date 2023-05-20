@@ -55,11 +55,14 @@ class Api {
         return data});
   }
 
-  getMovies() {
+  getMovies(jwt) {
     // debugger
     return fetch(`${this._url}/movies`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
     }).then((res) => this._checkResponse(res));
   }
 

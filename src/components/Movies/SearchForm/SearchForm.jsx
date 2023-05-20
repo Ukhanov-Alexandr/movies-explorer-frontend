@@ -1,7 +1,7 @@
 import './SearchForm.css';
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 
-export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isShort, setIsShort}) => {
+export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isShort, setIsShort, handlSearch}) => {
   // const [checked, setChecked] = useState(false);
   
   // useEffect(() => {
@@ -9,10 +9,16 @@ export const SearchForm = ({onSearchClick, setWord, isLoading, setIsLoading, isS
   // }, []);
 
   function handleSubmit(e){
+    
     e.preventDefault();
     setWord(e.target[1].value);
     setIsLoading(!isLoading);
-    onSearchClick();
+    // onSearchClick();
+    console.log('11')
+    // if (!!handlSearch) {
+    //   handlSearch()
+    //   console.log(e.target[1].value)
+    // }
     setTimeout(() => {
       setIsLoading(false);
     }, 600);

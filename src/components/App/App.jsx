@@ -98,6 +98,7 @@ function App() {
     localStorage.removeItem("jwt");
     localStorage.removeItem("isShort");
     localStorage.removeItem("word");
+    localStorage.removeItem("wordSaved");
     localStorage.removeItem("isLiked")
     localStorage.removeItem("id");
     // console.log(localStorage.getItem("word"))
@@ -130,7 +131,6 @@ function App() {
 
   const handleSearch = () => {
     // tokenCheck();
-
     MoviesApi.getMovies()
       .then((res) => {
         setMovies(res);
@@ -140,7 +140,19 @@ function App() {
         openErrorPopup(err);
       });
   };
-  
+
+  const handleSavedSearch = () => {
+    console.log(localStorage.getItem("jwt"))
+    MainApi.getMovies(localStorage.getItem("jwt"))
+      .then((res) => {
+        setSavedMovies(res);
+        tokenCheck();
+      })
+      .catch((err) => {
+        openErrorPopup(err);
+      });
+  };
+
 
   ////////////////////////////////////////////////////////////
  ////////////////////////////////////////////////////////////
@@ -196,7 +208,8 @@ function App() {
       });
   };
 
-  /////////////////////////////////////////////////////////////////////////////
+
+
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
       MainApi.getMovies()
@@ -236,6 +249,7 @@ function App() {
             <ProtectedRoute loggedIn={loggedIn}>
               <SavedMovies
                 movies={savedMovies}
+                onSearchClick={handleSavedSearch}
                 handleHeardClick={handDeleteMovies}
                 savedMovies={savedMovies}
                 setSavedMovies={setSavedMovies}
