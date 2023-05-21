@@ -18,13 +18,11 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
           localStorage.setItem("word", word);
         }
       });
-      // setIsEmpty(false);
     return moviesSearch;
   };
 
   useEffect(() => {
       onSearchClick()
-      // setIsEmpty(false);
   },[]);
 
   return (
@@ -36,6 +34,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
         setIsShort={setIsShort}
         isShort={isShort}
         setIsFirstRender={setIsFirstRender}
+        onSearchClick={onSearchClick}
       />
       {isLoading ? (
         <>

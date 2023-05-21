@@ -51,7 +51,6 @@ function App() {
   };
 
   const handleSignUp = ({ name, email, password }) => {
-    // console.log(name, email, password)
     if (!name || !email || !password) {
       return;
     }
@@ -77,7 +76,9 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
+          // navigate("/");
           tokenCheck();
+          navigate("/");
           console.log('authorize complete')
         } else {
           console.log('authorize error')
@@ -101,24 +102,24 @@ function App() {
     localStorage.removeItem("wordSaved");
     localStorage.removeItem("isLiked")
     localStorage.removeItem("id");
-    // console.log(localStorage.getItem("word"))
-    navigate("/sign-in");
+    navigate("/");
     setLoggedIn(false);
+    window.location.reload()
   }
 
   function tokenCheck() {
-    // console.log(!!localStorage.getItem("jwt"))
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
-      // console.log(jwt)
       MainApi.getUser(jwt)
         .then((user) => {
-          // console.log(!Array.isArray(user))
           if (!Array.isArray(user)) {
-            // console.log(user)
             setСurrentUser(user);
             setLoggedIn(true);
-            navigate("/movies");
+              if (!loggedIn && !(pathname === "/sign-in" || pathname ==="/sign-up")) {              
+                navigate(`${pathname}`);
+            } else {
+              navigate("/");
+            }
           } else {
             signOut();
           }
@@ -129,12 +130,29 @@ function App() {
     }
   }
 
+  function ownCheck() {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      MainApi.getUser(jwt)
+        .then((user) => {
+          if (!Array.isArray(user)) {
+            setСurrentUser(user);
+            setLoggedIn(true);
+            navigate("/movies");
+            console.log('asdasdasd')
+          }
+        })
+        .catch((err) => {
+          openErrorPopup(err);
+        });
+    }
+  }
+
   const handleSearch = () => {
-    // tokenCheck();
     MoviesApi.getMovies()
       .then((res) => {
         setMovies(res);
-        tokenCheck();
+        ownCheck();
       })
       .catch((err) => {
         openErrorPopup(err);
@@ -251,7 +269,7 @@ function App() {
         />
         <Route path="/sign-up" element={<Register onSignUp={handleSignUp} />} />
         <Route path="/sign-in" element={<Login onSignIn={handleLogin} />} />
-        <Route path="/404" element={<NotFound />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
       <ErrorPopup error={serverError} onClose={closeErrorPopup} />

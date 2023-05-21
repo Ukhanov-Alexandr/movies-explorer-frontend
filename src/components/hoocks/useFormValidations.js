@@ -12,8 +12,6 @@ function useFormValidations(initialValues) {
   const [isErrors, setIsErrors] = useState(errorStates);
 
   const handleValueChange = (evt) => {
-    // console.dir(evt.target)
-    // console.dir(evt.target.validity.valid)
     const {
       target: {
         value,
@@ -37,7 +35,6 @@ function useFormValidations(initialValues) {
   }
 
   const handleEmailValidation = (evt) => {
-    // console.dir(evt.target.validity.valid)
     const {
       target: {
         value,

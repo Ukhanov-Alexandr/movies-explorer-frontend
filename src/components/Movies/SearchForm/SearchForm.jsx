@@ -1,16 +1,16 @@
 import './SearchForm.css';
 
-export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort, setIsFirstRender}) => {
+export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort, setIsFirstRender, onSearchClick}) => {
 
   function handleSubmit(e){
     
     e.preventDefault();
+    onSearchClick()
     setWord(e.target[1].value);
     setIsLoading(!isLoading);
     console.log('11')
     setIsFirstRender(false)
     setTimeout(() => {
-      // setIsEmpty(false)
       setIsLoading(false);
     }, 600);
   }

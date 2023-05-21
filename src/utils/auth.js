@@ -2,7 +2,6 @@ export const BASE_URL = "https://api.movies.ukh.nomoredomains.club";
 // export const BASE_URL = "http://localhost:3001";
 
 export const register = (name, email, password) => {
-  // console.log(name, email, password)
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {

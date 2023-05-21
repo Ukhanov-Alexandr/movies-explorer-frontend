@@ -1,12 +1,9 @@
 import "./MoviesCard.css";
-import React, { useState, useEffect, useCallback, useReducer  } from "react";
+import React, { useState, useEffect, } from "react";
 import { useLocation } from "react-router-dom";
-import MainApi from "../../../utils/MainApi";
-// import { CurrentUserContext } from "../../../contexts/CurrentUserContext";
 
 
 export const MoviesCard = ({ movie, handleHeardClick, savedMovies, setSavedMovies }) => {
-  // const currentUser = React.useContext(CurrentUserContext);
   const [isSaved, setIsSaved] = useState(false);
   const { pathname } = useLocation();
 

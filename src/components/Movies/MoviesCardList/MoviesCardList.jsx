@@ -15,7 +15,6 @@ export const MoviesCardList = ({
   const [isLoading, setIsLoading] = useState(false);
   const [index, setIndex] = useState(16);
   const { pathname } = useLocation();
-  // const [isNoMore, setIsNoMore] = useState(true);
 
   const loadMore = () => {
     setIsLoading(!isLoading);

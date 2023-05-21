@@ -9,7 +9,6 @@ export const Login = ({ onSignIn }) => {
   function handleSubmit(e) {
     console.dir(e)
     e.preventDefault();
-    // console.log('asd')
     onSignIn({
       email: values["input-email"],
       password: values["input-password"],
@@ -33,7 +32,6 @@ export const Login = ({ onSignIn }) => {
                 placeholder="e-mail"
                 value={values["input-email"]}
                 onChange={handleEmailValidation}
-                // ref={register({ required: true, validate: handleEmailValidation })}
               />
               <span className="sign-form__field-error">
                 {errorMessages["input-email"]}
