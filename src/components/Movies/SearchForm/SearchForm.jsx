@@ -2,7 +2,7 @@ import './SearchForm.css';
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort, setIsFirstRender, onSearchClick, word}) => {
+export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort, setIsFirstRender, onSearchClick}) => {
   const { pathname } = useLocation();
 
   function handleSubmit(e){

@@ -15,7 +15,7 @@ import { NotFound } from "../NotFound/NotFound";
 import * as auth from "../../utils/auth";
 import MainApi from "../../utils/MainApi";
 import MoviesApi from "../../utils/MoviesApi";
-import ErrorPopup from "../ErrorPopup/ErrorPopup";
+import { ErrorPopup } from "../ErrorPopup/ErrorPopup";
 import { useLocation } from "react-router-dom";
 
 function App() {
@@ -82,8 +82,6 @@ function App() {
           .catch((err) => {
             console.log(err);
           });
-
-          // navigate("/movies");
           ownCheck();
           console.log('authorize complete')
         } else {
@@ -111,7 +109,6 @@ function App() {
     localStorage.removeItem("id");
     navigate("/");
     setLoggedIn(false);
-    // window.location.reload()
   }
 
   const tokenCheck = () => {
@@ -176,7 +173,6 @@ function App() {
           }
           return false;
         }
-        // debugger
         MainApi.deleteMovie(savedMovies.find(m => m.movieId === movie.id)._id, localStorage.getItem("jwt"))
         .then((res) => {
           setSavedMovies(savedMovies.filter(filterByID));

@@ -37,7 +37,6 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
         isShort={isShort}
         setIsFirstRender={setIsFirstRender}
         onSearchClick={onSearchClick}
-        word={word}
       />
       {isLoading ? (
         <>

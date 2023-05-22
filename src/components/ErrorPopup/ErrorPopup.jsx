@@ -1,8 +1,7 @@
-import "./ErrorPopup.css";
+import './ErrorPopup.css';
 import React from "react";
 
-
-function ErrorPopup({ error, onClose }) {
+export const ErrorPopup = ({ error, onClose }) => {
   const { message = ' ', errorCode = null } = error ?? {};
 
   const handleOverlayClick = (evt) => {
@@ -30,5 +29,3 @@ function ErrorPopup({ error, onClose }) {
     </div>
   );
 }
-
-export default ErrorPopup;
