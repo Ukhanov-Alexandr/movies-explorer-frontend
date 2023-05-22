@@ -44,7 +44,6 @@ function App() {
         })
         .catch((err) => {
           console.log(`Ошибка с кодом: ${err.errorCode}`);
-          console.dir(err);
           openErrorPopup(err);
         })
     }
@@ -76,9 +75,16 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
-          // navigate("/");
-          tokenCheck();
-          navigate("/");
+          MainApi.getMovies(localStorage.getItem("jwt"))
+          .then((res) => {
+            setSavedMovies(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+          // navigate("/movies");
+          ownCheck();
           console.log('authorize complete')
         } else {
           console.log('authorize error')
@@ -105,10 +111,10 @@ function App() {
     localStorage.removeItem("id");
     navigate("/");
     setLoggedIn(false);
-    window.location.reload()
+    // window.location.reload()
   }
 
-  function tokenCheck() {
+  const tokenCheck = () => {
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
       MainApi.getUser(jwt)
@@ -140,7 +146,6 @@ function App() {
             setСurrentUser(user);
             setLoggedIn(true);
             navigate("/movies");
-            console.log('asdasdasd')
           }
         })
         .catch((err) => {
@@ -171,6 +176,7 @@ function App() {
           }
           return false;
         }
+        // debugger
         MainApi.deleteMovie(savedMovies.find(m => m.movieId === movie.id)._id, localStorage.getItem("jwt"))
         .then((res) => {
           setSavedMovies(savedMovies.filter(filterByID));
@@ -225,6 +231,9 @@ function App() {
       });
     }
   }, [handleHeardClick]);
+
+
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

@@ -1,10 +1,13 @@
 import "./Profile.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import useFormValidations from "../hoocks/useFormValidations";
 import { signupInitialValues } from "../../utils/constants";
+import { Modal } from "../Modal/Modal";
 
 export const Profile = ({ onUpdateUser, signOut }) => {
+  const [active, setActive] = useState(false);
+
   const currentUser = React.useContext(CurrentUserContext);
   const {
     values,
@@ -13,7 +16,7 @@ export const Profile = ({ onUpdateUser, signOut }) => {
     handleValueChange,
     setValues,
     resetErrors,
-    handleEmailValidation
+    handleEmailValidation,
   } = useFormValidations(signupInitialValues);
 
   useEffect(() => {
@@ -24,81 +27,107 @@ export const Profile = ({ onUpdateUser, signOut }) => {
       });
       resetErrors();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.name, currentUser.email]);
 
-  function handleSubmit(e){
+  useEffect(() => {
+    if (active) {
+      function handleEscClose(evt) {
+        if (evt.key === "Escape") {
+          setActive(false);
+        }
+      }
+      document.addEventListener("keydown", handleEscClose);
+      return () => {
+        document.removeEventListener("keydown", handleEscClose);
+      };
+    }
+  }, [active]);
+
+  function handleSubmit(e) {
     e.preventDefault();
-    console.log('hey!')
+    console.log("hey!");
     // eslint-disable-next-line eqeqeq
-    if (currentUser.name == values["input-name"] && currentUser.email == values["input-email"]) {
-      console.log('ничего не поменялость')
+    if (
+      currentUser.name == values["input-name"] &&
+      currentUser.email == values["input-email"]
+    ) {
+      console.log("ничего не поменялость");
     } else {
       onUpdateUser({
         name: values["input-name"],
-        email: values["input-email"]
-    });
+        email: values["input-email"],
+      });
+      setActive(true);
     }
   }
 
   return (
-    <main className="main profile-form-container">
-      <form action="/" name="edit" className="profile-form" onSubmit={handleSubmit}>
-        <div className="profile-form__fields-wrapper">
-          <h1 className="profile-form__header">Привет, {currentUser.name}!</h1>
-          <fieldset className="profile-form__fields">
-            <label className="profile-form__label">
-              <span className="profile-form__field-name">Имя</span>
-              <input
-                className="profile-form__field"
-                type="text"
-                name="input-name"
-                value={values["input-name"]}
-                minLength={3}
-                maxLength={30}
-                required
-                onChange={handleValueChange}
-              />
-            </label>
-            <span className="sign-form__field-error">
-              {errorMessages["input-name"]}
-            </span>
-            <label
-              className="profile-form__label profile-form__label_borderless"
+    <>
+      <main className="main profile-form-container">
+        <form
+          action="/"
+          name="edit"
+          className="profile-form"
+          onSubmit={handleSubmit}
+        >
+          <div className="profile-form__fields-wrapper">
+            <h1 className="profile-form__header">
+              Привет, {currentUser.name}!
+            </h1>
+            <fieldset className="profile-form__fields">
+              <label className="profile-form__label">
+                <span className="profile-form__field-name">Имя</span>
+                <input
+                  className="profile-form__field"
+                  type="text"
+                  name="input-name"
+                  value={values["input-name"]}
+                  minLength={3}
+                  maxLength={30}
+                  required
+                  onChange={handleValueChange}
+                />
+              </label>
+              <span className="sign-form__field-error">
+                {errorMessages["input-name"]}
+              </span>
+              <label className="profile-form__label profile-form__label_borderless">
+                <span className="profile-form__field-name">E&#8209;mail</span>
+                <input
+                  className="profile-form__field"
+                  type="email"
+                  name="input-email"
+                  value={values["input-email"]}
+                  required
+                  onChange={handleEmailValidation}
+                />
+              </label>
+              <span className="sign-form__field-error">
+                {errorMessages["input-email"]}
+              </span>
+            </fieldset>
+          </div>
+          <fieldset className="profile-form__fields profile-form__fields_flex">
+            <span className="profile-form__field-error" />
+            <button
+              type="submit"
+              className="animation button profile-form__button profile-form__button_action_edit"
+              disabled={Object.values(isErrors).some((item) => item)}
             >
-              <span className="profile-form__field-name">E&#8209;mail</span>
-              <input
-                className="profile-form__field"
-                type="email"
-                name="input-email"
-                value={values["input-email"]}
-                required
-                onChange={handleEmailValidation}
-              />
-            </label>
-            <span className="sign-form__field-error">
-              {errorMessages["input-email"]}
-            </span>
+              Редактировать
+            </button>
+            <button
+              className="animation button profile-form__button profile-form__button_action_logout"
+              type="button"
+              onClick={signOut}
+            >
+              Выйти из аккаунта
+            </button>
           </fieldset>
-        </div>
-        <fieldset className="profile-form__fields profile-form__fields_flex">
-          <span className="profile-form__field-error" />
-          <button
-            type="submit"
-            className="animation button profile-form__button profile-form__button_action_edit"
-            disabled={Object.values(isErrors).some((item) => item)}
-          >
-            Редактировать
-          </button>
-          <button
-            className="animation button profile-form__button profile-form__button_action_logout"
-            type="button"
-            onClick={signOut}
-          >
-            Выйти из аккаунта
-          </button>
-        </fieldset>
-      </form>
-    </main>
+        </form>
+      </main>
+      <Modal active={active} setActive={setActive} />
+    </>
   );
 };

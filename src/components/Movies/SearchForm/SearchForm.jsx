@@ -1,12 +1,17 @@
 import './SearchForm.css';
 import React from "react";
+import { useLocation } from "react-router-dom";
 
-export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort, setIsFirstRender, onSearchClick}) => {
+export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort, setIsFirstRender, onSearchClick, word}) => {
+  const { pathname } = useLocation();
 
   function handleSubmit(e){
     
     e.preventDefault();
-    onSearchClick()
+    if (pathname === "/movies") {
+      onSearchClick()
+    }
+    
     setWord(e.target[1].value);
     setIsLoading(!isLoading);
     console.log('11')
@@ -28,10 +33,10 @@ export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShor
           <input
             className="search-form__input"
             type="text"
-            placeholder="Фильм"
+            placeholder={(localStorage.getItem("word") && pathname === "/movies")?localStorage.getItem("word"):"Фильм"}
             name="film"
             required
-          />
+          ></input>
           <button
             className="animation button search-form__button"
             type="submit"

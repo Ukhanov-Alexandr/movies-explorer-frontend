@@ -37,6 +37,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
         isShort={isShort}
         setIsFirstRender={setIsFirstRender}
         onSearchClick={onSearchClick}
+        word={word}
       />
       {isLoading ? (
         <>
@@ -46,8 +47,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
       ) : (
         <MoviesCardList
           movies={handlSearch()}
-          // eslint-disable-next-line eqeqeq
-          isShort={(localStorage.getItem("isShort") == "true")}
+          isShort={(localStorage.getItem("isShort") === "true")}
           handleHeardClick={handleHeardClick}
           savedMovies={savedMovies}
           setSavedMovies={setSavedMovies}
