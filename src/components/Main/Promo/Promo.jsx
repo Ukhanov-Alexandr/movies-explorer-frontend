@@ -1,4 +1,5 @@
 import './Promo.css';
+import React from "react";
 import spiral from '../../../images/landing-logo.svg';
 
 export const Promo = () => (

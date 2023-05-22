@@ -1,4 +1,5 @@
 import './SearchForm.css';
+import React from "react";
 
 export const SearchForm = ({setWord, isLoading, setIsLoading, isShort, setIsShort, setIsFirstRender, onSearchClick}) => {
 

@@ -1,4 +1,5 @@
 import './Register.css';
+import React from "react";
 import { Link } from 'react-router-dom';
 import useFormValidations from "../hoocks/useFormValidations"
 import { signupInitialValues } from "../../utils/constants"

@@ -1,4 +1,5 @@
 import './AboutMe.css';
+import React from "react";
 import photo from '../../../images/ukh_port.jpg';
 import { Portfolio } from '../Portfolio/Portfolio';
 
