@@ -49,8 +49,8 @@ export const Profile = ({ onUpdateUser, signOut }) => {
     console.log("hey!");
     // eslint-disable-next-line eqeqeq
     if (
-      currentUser.name == values["input-name"] &&
-      currentUser.email == values["input-email"]
+      currentUser.name === values["input-name"] &&
+      currentUser.email === values["input-email"]
     ) {
       console.log("ничего не поменялость");
     } else {

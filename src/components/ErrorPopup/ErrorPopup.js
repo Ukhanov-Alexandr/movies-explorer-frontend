@@ -2,7 +2,7 @@ import './ErrorPopup.css';
 import React from "react";
 
 export const ErrorPopup = ({ error, onClose }) => {
-  const { message = ' ', errorCode = null } = error ?? {};
+  const { message = '', errorCode = null } = error ?? {};
 
   const handleOverlayClick = (evt) => {
     if (evt.target === evt.currentTarget) {
