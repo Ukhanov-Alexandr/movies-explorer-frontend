@@ -55,8 +55,7 @@ export const MoviesCardList = ({
               )
             )}
           </ul>
-
-          { moviesElements.length == index && (
+          { moviesElements.length === index && (
             <button
               type="button"
               className={

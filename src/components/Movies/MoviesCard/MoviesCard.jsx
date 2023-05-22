@@ -10,6 +10,7 @@ export const MoviesCard = ({ movie, handleHeardClick, savedMovies, setSavedMovie
   const check = (arr) => {
     let isliked = false;
     arr.forEach((i) => {
+      // eslint-disable-next-line eqeqeq
       if (i.movieId == movie.id) {
         isliked = true;
         return isliked;
@@ -24,6 +25,7 @@ export const MoviesCard = ({ movie, handleHeardClick, savedMovies, setSavedMovie
 
   useEffect(() => {
     setIsSaved(check(savedMovies));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const duration = () => {
@@ -40,7 +42,7 @@ export const MoviesCard = ({ movie, handleHeardClick, savedMovies, setSavedMovie
   return (
     <li className="cards__item">
       <section className="card">
-        <a target="_blank" href={movie.trailerLink}>
+        <a target="_blank" href={movie.trailerLink} rel="noreferrer">
           <img
             className="card__image"
             src={

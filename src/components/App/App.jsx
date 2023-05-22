@@ -93,6 +93,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function signOut() {
@@ -191,6 +192,7 @@ function App() {
           console.log(err);
         });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const handDeleteMovies = (mov) => {

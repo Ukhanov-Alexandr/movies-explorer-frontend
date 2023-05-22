@@ -13,6 +13,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
   const handlSearch = () => {
     const moviesSearch = [];
       movies.forEach((movie) => {
+        // eslint-disable-next-line eqeqeq
         if (word.length != 0 && movie.nameRU.toLowerCase().includes(word.toLowerCase())) {
           moviesSearch.push(movie);
           localStorage.setItem("word", word);
@@ -23,6 +24,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
 
   useEffect(() => {
       onSearchClick()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   return (
@@ -44,6 +46,7 @@ export const Movies = ({ movies, onSearchClick, handleHeardClick, savedMovies, s
       ) : (
         <MoviesCardList
           movies={handlSearch()}
+          // eslint-disable-next-line eqeqeq
           isShort={(localStorage.getItem("isShort") == "true")}
           handleHeardClick={handleHeardClick}
           savedMovies={savedMovies}

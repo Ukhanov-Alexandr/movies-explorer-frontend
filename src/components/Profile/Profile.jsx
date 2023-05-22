@@ -24,11 +24,13 @@ export const Profile = ({ onUpdateUser, signOut }) => {
       });
       resetErrors();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.name, currentUser.email]);
 
   function handleSubmit(e){
     e.preventDefault();
     console.log('hey!')
+    // eslint-disable-next-line eqeqeq
     if (currentUser.name == values["input-name"] && currentUser.email == values["input-email"]) {
       console.log('ничего не поменялость')
     } else {

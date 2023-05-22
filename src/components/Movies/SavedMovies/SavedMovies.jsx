@@ -13,6 +13,7 @@ export const SavedMovies = ({movies, handleHeardClick, savedMovies, setSavedMovi
   const handlSearch = () => {
     const moviesSearch = [];
     movies.forEach((movie) => {
+      // eslint-disable-next-line eqeqeq
       if (word.length != 0 && movie.nameRU.toLowerCase().includes(word.toLowerCase())) {
         moviesSearch.push(movie);
       }

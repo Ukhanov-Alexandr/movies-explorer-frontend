@@ -1,5 +1,5 @@
 import "./Header.css";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import icon from "../../images/profile_icon.svg";
 import { NavTab } from "../Main/NavTab/NavTab";
