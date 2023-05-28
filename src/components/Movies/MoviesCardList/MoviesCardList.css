@@ -7,7 +7,7 @@
 
 .cards {
   display: grid;
-  width: 100%;
+  max-width: 100%;
   padding: 0;
   margin: 0;
   gap: 38px 20px;
@@ -35,6 +35,10 @@
   border: none;
   background-color: #f9f9f9;
   margin-top: 50px;
+}
+
+.movies__more_hidden {
+  visibility: hidden;
 }
 
 @media screen and (max-width: 870px) {

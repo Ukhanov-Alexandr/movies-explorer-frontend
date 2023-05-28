@@ -118,11 +118,20 @@
   font-weight: 500;
 }
 
+/* .profile-form__updated {
+  background-color: #686868;
+  color: #fff;
+  width: 100px;
+  height: 100px;
+  z-index: 3;
+  position: absolute;
+} */
+
 @media screen and (min-width: 768px) and (max-width: 1279px) {
   .profile-form-container {
     padding-top: calc(((100vw - 768px) * (-162 / 511)) + 236px);
   }
-  
+
   .profile-form__fields-wrapper {
     gap: 77px;
   }

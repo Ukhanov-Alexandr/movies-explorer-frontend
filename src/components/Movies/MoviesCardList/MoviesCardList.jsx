@@ -1,43 +1,85 @@
-import './MoviesCardList.css';
+import "./MoviesCardList.css";
 import React, { useState } from "react";
-import { Preloader } from '../Preloader/Preloader';
-import { MoviesCard } from '../MoviesCard/MoviesCard';
-import { defaultCards } from '../../../utils/constants';
+import { Preloader } from "../Preloader/Preloader";
+import { MoviesCard } from "../MoviesCard/MoviesCard";
+import { useLocation } from "react-router-dom";
 
-export const MoviesCardList = ({ cards = defaultCards }) => {
-  const [ isLoading, setIsLoading ] = useState(false);
+export const MoviesCardList = ({
+  movies,
+  handleHeardClick,
+  isShort,
+  savedMovies,
+  setSavedMovies,
+  isFirstRender,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [index, setIndex] = useState(16);
+  const { pathname } = useLocation();
 
   const loadMore = () => {
-    setIsLoading(true)
+    setIsLoading(!isLoading);
+    setTimeout(() => {
+      setIndex(index + 8);
+      setIsLoading(false);
+    }, 800);
   };
 
-  const isEmpty = (cards.length === 0);
-  const hasCards = !isEmpty;
+  const handlShort = (movies) => {
+    const moviesShort = [];
+    movies.forEach((movie) => {
+      if (movie.duration <= 40) {
+        moviesShort.push(movie);
+      }
+    });
+    return moviesShort;
+  };
 
+  const moviesElements =
+    pathname === "/movies" ? movies.slice(0, index) : movies;
+  const isEmpty = movies.length === 0;
+  const hasCards = !isEmpty;
   return (
     <article className="article movies" aria-label="Все роллы">
       {hasCards && (
-      <>
-        <ul className="cards">
-          {cards.map((card) => <MoviesCard key={card.id} card={card}/>)}
-        </ul>
-        <button
-          type="button"
-          className="animation button movies__more"
-          disabled={isLoading}
-          onClick={loadMore}
-        >
-          Ещё
-        </button>
-      </>
+        <>
+          <ul className="cards">
+            {(isShort ? handlShort(moviesElements) : moviesElements).map(
+              (movie) => (
+                <MoviesCard
+                  key={pathname === "/movies" ? movie.id : movie._id}
+                  movie={movie}
+                  handleHeardClick={handleHeardClick}
+                  savedMovies={savedMovies}
+                  setSavedMovies={setSavedMovies}
+                />
+              )
+            )}
+          </ul>
+          { isShort?handlShort(moviesElements).length === index:moviesElements.length === index && (
+            <button
+              type="button"
+              className={
+                pathname === "/movies"
+                  ? "animation button movies__more"
+                  : "movies__more_hidden"
+              }
+              disabled={isLoading}
+              onClick={loadMore}
+            >
+              Ещё
+            </button>
+          )}
+        </>
       )}
-      {isLoading && (
-      <>
-        <Preloader />
-        <p className="movies__load-info">Загрузка...</p>
-      </>
+      { isLoading && (
+        <>
+          <Preloader />
+          <p className="movies__load-info">Загрузка...</p>
+        </>
       )}
-      {isEmpty && <p className="movies__load-info">Ничего не найдено</p>}
+      {isEmpty && !isFirstRender && (
+        <p className="movies__load-info">Ничего не найдено</p>
+      )}
     </article>
   );
 };

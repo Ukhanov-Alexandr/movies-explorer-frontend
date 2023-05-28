@@ -81,6 +81,10 @@
   visibility: hidden;
 }
 
+/* .shorts-switch__checkbox_active {
+  background-color: #2be080;
+} */
+
 .shorts-switch__label {
   position: relative;
   display: block;

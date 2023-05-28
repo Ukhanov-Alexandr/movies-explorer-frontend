@@ -1,5 +1,5 @@
-
 import './AboutProject.css';
+import React from "react";
 
 export const AboutProject = () => (
   <article className="article about-project">
